@@ -25,17 +25,20 @@ fun part1(input: List<String>): Int =
                 artsyCoord.last(Char::isDigit).digitToInt()
     }
 
+fun String.replaceDigitWithInt(): String =
+    replace(digitRegex) { matchResult -> digitToInt.getValue(matchResult.value).toString() }
+
 fun part2(input: List<String>): Int =
     input.sumOf { artsyCoord ->
         val first = artsyCoord.windowed(5, partialWindows = true)
-            .first { window -> window.containsDigitOrInt() }
-            .let { f -> f.replace(digitRegex) { matchResult -> digitToInt.getValue(matchResult.value).toString() } }
+            .first(String::containsDigitOrInt)
+            .let(String::replaceDigitWithInt)
             .first(Char::isDigit)
             .digitToInt()
 
         val last = artsyCoord.windowed(5, partialWindows = true)
             .last { window -> window.containsDigitOrInt() }
-            .let { f -> f.replace(digitRegex) { matchResult -> digitToInt.getValue(matchResult.value).toString() } }
+            .let(String::replaceDigitWithInt)
             .last(Char::isDigit)
             .digitToInt()
 
