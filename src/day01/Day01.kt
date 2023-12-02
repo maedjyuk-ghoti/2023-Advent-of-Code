@@ -37,7 +37,7 @@ fun part2(input: List<String>): Int =
             .digitToInt()
 
         val last = artsyCoord.windowed(5, partialWindows = true)
-            .last { window -> window.containsDigitOrInt() }
+            .last(String::containsDigitOrInt)
             .let(String::replaceDigitWithInt)
             .last(Char::isDigit)
             .digitToInt()
